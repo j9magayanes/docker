@@ -1,9 +1,16 @@
-sudo: required
-services: 
-  - docker
-
-before_install:
-  - docker build -t j9magayanes/docker Dockerfile.dev .
-
+language: node_js
+node_js:
+ - "stable"
+cache:
+ directories:
+   - node_modules
 script:
-  - docker run -e CI=true j9magayanes/docker-react npm run test
+ - npm test
+ - npm run build || true
+deploy:
+ provider: pages
+ skip_cleanup: true
+ github_token: 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
+ local_dir: build
+ on:
+   branch: master
